@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+    <link rel="stylesheet" href="css/basic.css"/>
+</head>
+<body>
+    <h2 class="title">这是一个koa-art-template</h2>
+
+
+<h2>绑定数据</h2>
+
+    <%=list.name%>
+    <br/>
+    <%= 1 + 2 %>
+    <br/>
+    <hr/>
+    <br/>
+ <h2>绑定html数据</h2>
+
+
+    <%=list.h%>
+
+
+    <%-list.h%>
+    <br/>
+    <hr/>
+    <br/>
+<h2>条件</h2>
+
+
+    <%if(num>10){%>
+
+        大于10
+    <%}else{ %>
+
+        小于10
+    <%}%>
+    <br/>
+    <hr/>
+    <br/>
+ <h2>循环数据</h2>
+
+    <ul>
+        <%for(var i=0;i<list.data.length;i++){%>
+          <li><%=list.data[i]%></li>
+        <%}%>
+    </ul>
+
+    <br/>
+    <hr/>
+    <br/>
+
+
+    <% include('./public/footer.html') %>
+</body>
+</html>

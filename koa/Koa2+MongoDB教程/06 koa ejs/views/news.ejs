@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<% include public/header.ejs%>
+
+<h2>ejs循环数据---<%=userinfo%></h2>
+
+<ul>
+    <%for(var i=0;i<list.length;i++){%>
+        <li><%=list[i]%></li>
+    <%}%>
+</ul>
+
+<h2>绑定html数据</h2>
+
+<br/>
+
+<%=content%>
+
+
+<br/>
+
+
+<%-content%>
+
+
+<br/>
+<br/>
+
+<h2>条件判断</h2>
+<br/>
+<%if(num>24){%>
+
+ 大于24
+<%}else{%>
+
+小于24
+
+<%}%>
+
+
+<br/>
+<br/>
+</body>
+</html>

@@ -14,7 +14,7 @@ router.get('/', async (ctx, next) => {
   ctx.body = "Index";
 })
 
-router.get('/data/todo.json', async function (ctx, next) {
+router.get('./data/todo.json', async function (ctx, next) {
   let data = await fs.readFileSync('./todo.json', 'utf-8')
   ctx.body = data;
 })
