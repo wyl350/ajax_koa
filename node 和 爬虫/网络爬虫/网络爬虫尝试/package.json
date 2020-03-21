@@ -1,0 +1,21 @@
+{
+  "name": "pacong",
+  "version": "1.0.0",
+  "description": "几个网站 看一下\r https://segmentfault.com/a/1190000014811373?utm_source=tag-newest\r https://www.jianshu.com/p/a2f02f5e0cc2\r https://www.cnblogs.com/scottjeremy/p/11961190.html",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "art-template": "^4.13.2",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "koa": "^2.11.0",
+    "koa-art-template": "^1.1.1",
+    "koa-router": "^8.0.8",
+    "nightmare": "^3.0.2",
+    "superagent": "^5.2.2"
+  }
+}

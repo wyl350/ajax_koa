@@ -107,18 +107,18 @@ async 是让方法变成异步
 
 
 
+function getData() {
+
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            var username = '张三';
+            resolve(username);
+
+
+        }, 1000)
+    })
+}
 /*
- function getData(){
-
-    return new Promise((resolve,reject)=>{
-          setTimeout(()=>{
-                 var username='张三';
-                 resolve(username);
-
-
-          },1000)
-     })
- }
 
  var p=getData();
  p.then(function(d){
@@ -129,18 +129,18 @@ async 是让方法变成异步
 * */
 
 
-function getData(){
-    return new Promise((resolve,reject)=>{
-        setTimeout(()=>{
-            var username='张三';
+function getData() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            var username = '张三';
             resolve(username);
 
-        },1000)
+        }, 1000)
     })
 }
-async function test(){
+async function test() {
 
-    var data=await getData();
+    var data = await getData();
     console.log(data);
 }
 
