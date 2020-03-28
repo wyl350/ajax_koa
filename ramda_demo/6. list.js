@@ -127,7 +127,8 @@ const __ = R.__
 
 {// remove：移除开始位置后的n个成员。
   console.log(
-    R.remove(2, 3)([1, 2, 3, 4, 5, 6, 7, 8]) // [1,2,6,7,8]
+    R.remove(2, 3)([1, 2, 3, 4, 5, 6, 7, 8]), // [1,2,6,7,8]
+    R.remove(2)(3)([1, 2, 3, 4, 5, 6, 7, 8]), // [1,2,6,7,8]
   )
 }
 
@@ -229,14 +230,14 @@ const __ = R.__
   )
 }
 
+{// aperture：每个成员与其后给定数量的成员分成一组，这些组构成一个新的数组。
+  R.aperture(3)([1, 2, 3, 4, 5, 6, 7])// [[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], [5, 6, 7]]
+}
+
 {// splitWhen：以第一个满足指定函数的成员为界，将数组分成两个部分。
   console.log(
     R.splitWhen(R.equals(2))([1, 2, 3, 1, 2, 3])// [[1], [2, 3, 1, 2, 3]]
   )
-}
-
-{// aperture：每个成员与其后给定数量的成员分成一组，这些组构成一个新的数组。
-  R.aperture(3)([1, 2, 3, 4, 5, 6, 7])// [[1, 2, 3], [2, 3, 4], [3, 4, 5], [4, 5, 6], [5, 6, 7]]
 }
 
 {// partition：根据是否满足指定函数，将成员分区。
@@ -290,7 +291,8 @@ const __ = R.__
     return a - b
   }
   console.log(
-    R.reduce(mySubtract, 0)([1, 2, 3, 4]) // -10
+    R.reduce(mySubtract, 0)([1, 2, 3, 4]), // -10
+    R.reduce(mySubtract)(0)([1, 2, 3, 4]), // -10
   )
 }
 
@@ -298,11 +300,10 @@ const __ = R.__
   console.log(
     R.reduceRight(R.subtract, 0)([1, 2, 3, 4]) // -2
   )
-
 }
 
-// reduceWhile：与reduce类似，区别是有一个判断函数，一旦数组成员不符合条件，就停止累积。
-{
+
+{// reduceWhile：与reduce类似，区别是有一个判断函数，一旦数组成员不符合条件，就停止累积。
   const isOdd = (acc, x) => x % 2 === 1
   const xs = [1, 3, 5, 60, 777, 800]
   const ys = [2, 4, 6]
@@ -333,12 +334,13 @@ const __ = R.__
   )
 }
 
-{// adjust：对指定位置的成员执行给定的函数。
-  console.log(
-    R.adjust(R.add(10), 1)([1, 2, 3]), // [1, 12, 3]
-    R.adjust(R.add(10), 1)([1, 2, 3]), // [1, 12, 3]
-  )
-}
+// 这个函数有问题。
+// {// adjust：对指定位置的成员执行给定的函数。
+//   console.log(
+//     R.adjust(R.add(10), 1)([1, 2, 3]), // [1, 12, 3]
+//     // R.adjust(R.add(10), 1)([1, 2, 3]), // [1, 12, 3]
+//   )
+// }
 
 {// ap：数组成员分别执行一组函数，将结果合成为一个新数组。
   console.log(
@@ -356,216 +358,214 @@ const __ = R.__
 {// groupBy：将数组成员依次按照指定条件两两比较，并按照结果将所有成员放入子数组。
   console.log(
     R.groupWith(R.equals)([0, 1, 1, 2, 3, 5, 8, 13, 21]),// [[0], [1, 1], [2], [3], [5], [8], [13], [21]]
-
     R.groupWith((a, b) => a % 2 === b % 2)([0, 1, 1, 2, 3, 5, 8, 13, 21]),// [[0], [1, 1], [2], [3, 5], [8], [13, 21]]
-
-    R.groupWith(R.eqBy(isVowel), 'aestiou'),//=> ['ae', 'st', 'iou']
+    // R.groupWith(R.eqBy(isVowel), 'aestiou'),//=> ['ae', 'st', 'iou']
   )
 }
 
-// 6.5 双数组运算
+// // 6.5 双数组运算
 
-{// concat：将两个数组合并成一个数组。
-  console.log(
-    R.concat('ABC')('DEF'), // 'ABCDEF'
-    R.concat([4, 5, 6])([1, 2, 3]), // [4, 5, 6, 1, 2, 3]
-    R.concat([])([]), // []
-  );
-}
+// {// concat：将两个数组合并成一个数组。
+//   console.log(
+//     R.concat('ABC')('DEF'), // 'ABCDEF'
+//     R.concat([4, 5, 6])([1, 2, 3]), // [4, 5, 6, 1, 2, 3]
+//     R.concat([])([]), // []
+//   );
+// }
 
-{// zip：将两个数组指定位置的成员放在一起，生成一个新数组。
-  console.log(
-    R.zip([1, 2, 3])(['a', 'b', 'c'])// [[1, 'a'], [2, 'b'], [3, 'c']]
-  );
-}
+// {// zip：将两个数组指定位置的成员放在一起，生成一个新数组。
+//   console.log(
+//     R.zip([1, 2, 3])(['a', 'b', 'c'])// [[1, 'a'], [2, 'b'], [3, 'c']]
+//   );
+// }
 
-{// zipObj：将两个数组指定位置的成员分别作为键名和键值，生成一个新对象。
-  console.log(
-    R.zipObj(['a', 'b', 'c'])([1, 2, 3])// {a: 1, b: 2, c: 3}
+// {// zipObj：将两个数组指定位置的成员分别作为键名和键值，生成一个新对象。
+//   console.log(
+//     R.zipObj(['a', 'b', 'c'])([1, 2, 3])// {a: 1, b: 2, c: 3}
 
-  );
+//   );
 
-}
+// }
 
-{// xprod：将两个数组的成员两两混合，生成一个新数组。
-  console.log(
-    R.xprod([1, 2])(['a', 'b'])// [[1, 'a'], [1, 'b'], [2, 'a'], [2, 'b']]
+// {// xprod：将两个数组的成员两两混合，生成一个新数组。
+//   console.log(
+//     R.xprod([1, 2])(['a', 'b'])// [[1, 'a'], [1, 'b'], [2, 'a'], [2, 'b']]
 
-  );
+//   );
 
-}
+// }
 
-{// intersection：返回两个数组相同的成员组成的新数组。
-  console.log(
-    R.intersection([1, 2, 3, 4], [7, 6, 5, 4, 3]) // [4, 3]
+// {// intersection：返回两个数组相同的成员组成的新数组。
+//   console.log(
+//     R.intersection([1, 2, 3, 4], [7, 6, 5, 4, 3]) // [4, 3]
 
-  );
+//   );
 
-}
+// }
 
-{// intersectionWith：返回经过某种运算，有相同结果的两个成员。
-  var buffaloSpringfield = [
-    { id: 824, name: 'Richie Furay' },
-    { id: 956, name: 'Dewey Martin' },
-    { id: 313, name: 'Bruce Palmer' },
-    { id: 456, name: 'Stephen Stills' },
-    { id: 177, name: 'Neil Young' }
-  ];
-  var csny = [
-    { id: 204, name: 'David Crosby' },
-    { id: 456, name: 'Stephen Stills' },
-    { id: 539, name: 'Graham Nash' },
-    { id: 177, name: 'Neil Young' }
-  ];
-  console.log(
-    R.intersectionWith(R.eqBy(R.prop('id')), buffaloSpringfield)(csny)// [{id: 456, name: 'Stephen Stills'}, {id: 177, name: 'Neil Young'}]
+// {// intersectionWith：返回经过某种运算，有相同结果的两个成员。
+//   var buffaloSpringfield = [
+//     { id: 824, name: 'Richie Furay' },
+//     { id: 956, name: 'Dewey Martin' },
+//     { id: 313, name: 'Bruce Palmer' },
+//     { id: 456, name: 'Stephen Stills' },
+//     { id: 177, name: 'Neil Young' }
+//   ];
+//   var csny = [
+//     { id: 204, name: 'David Crosby' },
+//     { id: 456, name: 'Stephen Stills' },
+//     { id: 539, name: 'Graham Nash' },
+//     { id: 177, name: 'Neil Young' }
+//   ];
+//   console.log(
+//     R.intersectionWith(R.eqBy(R.prop('id')), buffaloSpringfield)(csny)// [{id: 456, name: 'Stephen Stills'}, {id: 177, name: 'Neil Young'}]
 
-  );
-}
+//   );
+// }
 
-// difference：返回第一个数组不包含在第二个数组里面的成员。
-{
-  console.log(
-    R.difference([1, 2, 3, 4])([7, 6, 5, 4, 3]), // [1,2]
-    R.difference([7, 6, 5, 4, 3])([1, 2, 3, 4]), // [7,6,5]
-    R.difference([{ a: 1 }, { b: 2 }])([{ a: 1 }, { c: 3 }]), // [{b: 2}]
-  );
-}
+// // difference：返回第一个数组不包含在第二个数组里面的成员。
+// {
+//   console.log(
+//     R.difference([1, 2, 3, 4])([7, 6, 5, 4, 3]), // [1,2]
+//     R.difference([7, 6, 5, 4, 3])([1, 2, 3, 4]), // [7,6,5]
+//     R.difference([{ a: 1 }, { b: 2 }])([{ a: 1 }, { c: 3 }]), // [{b: 2}]
+//   );
+// }
 
-{// differenceWith：返回执行指定函数后，第一个数组里面不符合条件的所有成员。
-  var cmp = (x, y) => x.a === y.a;
-  var l1 = [{ a: 1 }, { a: 2 }, { a: 3 }];
-  var l2 = [{ a: 3 }, { a: 4 }];
-  console.log(
-    R.differenceWith(cmp, l1)(l2) // [{a: 1}, {a: 2}]
-  );
-}
+// {// differenceWith：返回执行指定函数后，第一个数组里面不符合条件的所有成员。
+//   var cmp = (x, y) => x.a === y.a;
+//   var l1 = [{ a: 1 }, { a: 2 }, { a: 3 }];
+//   var l2 = [{ a: 3 }, { a: 4 }];
+//   console.log(
+//     R.differenceWith(cmp, l1)(l2) // [{a: 1}, {a: 2}]
+//   );
+// }
 
-{// symmetricDifference：返回两个数组的非共有成员所组成的一个新数组。
-  console.log(
-    R.symmetricDifference([1, 2, 3, 4])([7, 6, 5, 4, 3]), // [1,2,7,6,5]
-    R.symmetricDifference([7, 6, 5, 4, 3])([1, 2, 3, 4]), // [7,6,5,1,2]
-  );
-}
+// {// symmetricDifference：返回两个数组的非共有成员所组成的一个新数组。
+//   console.log(
+//     R.symmetricDifference([1, 2, 3, 4])([7, 6, 5, 4, 3]), // [1,2,7,6,5]
+//     R.symmetricDifference([7, 6, 5, 4, 3])([1, 2, 3, 4]), // [7,6,5,1,2]
+//   );
+// }
 
-{// symmetricDifferenceWith：根据指定条件，返回两个数组所有运算结果不相等的成员所组成的新数组。
-  var eqA = R.eqBy(R.prop('a'));
-  var l1 = [{ a: 1 }, { a: 2 }, { a: 3 }, { a: 4 }];
-  var l2 = [{ a: 3 }, { a: 4 }, { a: 5 }, { a: 6 }];
-  console.log(
-    R.symmetricDifferenceWith(eqA, l1, l2) // [{a: 1}, {a: 2}, {a: 5}, {a: 6}]
-  );
-}
+// {// symmetricDifferenceWith：根据指定条件，返回两个数组所有运算结果不相等的成员所组成的新数组。
+//   var eqA = R.eqBy(R.prop('a'));
+//   var l1 = [{ a: 1 }, { a: 2 }, { a: 3 }, { a: 4 }];
+//   var l2 = [{ a: 3 }, { a: 4 }, { a: 5 }, { a: 6 }];
+//   console.log(
+//     R.symmetricDifferenceWith(eqA, l1, l2) // [{a: 1}, {a: 2}, {a: 5}, {a: 6}]
+//   );
+// }
 
-// 6.6 复合数组
+// // 6.6 复合数组
 
-{// find：返回符合指定条件的成员。
-  var xs = [{ a: 1 }, { a: 2 }, { a: 3 }];
-  console.log(
-    R.find(R.propEq('a', 2))(xs), // {a: 2}
-    R.find(R.propEq('a', 4))(xs), // undefined
-  );
-}
+// {// find：返回符合指定条件的成员。
+//   var xs = [{ a: 1 }, { a: 2 }, { a: 3 }];
+//   console.log(
+//     R.find(R.propEq('a', 2))(xs), // {a: 2}
+//     R.find(R.propEq('a', 4))(xs), // undefined
+//   );
+// }
 
-{// findIndex：返回符合指定条件的成员的位置。
-  var xs = [{ a: 1 }, { a: 2 }, { a: 3 }];
-  console.log(
-    R.findIndex(R.propEq('a', 2))(xs), // 1
-    R.findIndex(R.propEq('a', 4))(xs), // -1
-  );
-}
+// {// findIndex：返回符合指定条件的成员的位置。
+//   var xs = [{ a: 1 }, { a: 2 }, { a: 3 }];
+//   console.log(
+//     R.findIndex(R.propEq('a', 2))(xs), // 1
+//     R.findIndex(R.propEq('a', 4))(xs), // -1
+//   );
+// }
 
-{// findLast：返回最后一个符合指定条件的成员。
-  var xs = [{ a: 1, b: 0 }, { a: 1, b: 1 }];
-  console.log(
-    R.findLast(R.propEq('a', 1))(xs), // {a: 1, b: 1}
-    R.findLast(R.propEq('a', 4))(xs), // undefined
-  );
-}
+// {// findLast：返回最后一个符合指定条件的成员。
+//   var xs = [{ a: 1, b: 0 }, { a: 1, b: 1 }];
+//   console.log(
+//     R.findLast(R.propEq('a', 1))(xs), // {a: 1, b: 1}
+//     R.findLast(R.propEq('a', 4))(xs), // undefined
+//   );
+// }
 
-{// findLastIndex：返回最后一个符合指定条件的成员的位置。
-  var xs = [{ a: 1, b: 0 }, { a: 1, b: 1 }];
-  console.log(
-    R.findLastIndex(R.propEq('a', 1))(xs), // 1
-    R.findLastIndex(R.propEq('a', 4))(xs), // -1
+// {// findLastIndex：返回最后一个符合指定条件的成员的位置。
+//   var xs = [{ a: 1, b: 0 }, { a: 1, b: 1 }];
+//   console.log(
+//     R.findLastIndex(R.propEq('a', 1))(xs), // 1
+//     R.findLastIndex(R.propEq('a', 4))(xs), // -1
 
-  );
+//   );
 
-}
+// }
 
-{// pluck：取出数组成员的某个属性，组成一个新数组。
-  console.log(
-    R.pluck('a')([{ a: 1 }, { a: 2 }]), // [1, 2]
-    R.pluck(0)([[1, 2], [3, 4]]),   // [1, 3]
-  );
-}
+// {// pluck：取出数组成员的某个属性，组成一个新数组。
+//   console.log(
+//     R.pluck('a')([{ a: 1 }, { a: 2 }]), // [1, 2]
+//     R.pluck(0)([[1, 2], [3, 4]]),   // [1, 3]
+//   );
+// }
 
-{// project：取出数组成员的多个属性，组成一个新数组。
-  var abby = { name: 'Abby', age: 7, hair: 'blond', grade: 2 };
-  var fred = { name: 'Fred', age: 12, hair: 'brown', grade: 7 };
-  var kids = [abby, fred];
-  console.log(
-    R.project(['name', 'grade'])(kids)// [{name: 'Abby', grade: 2}, {name: 'Fred', grade: 7}]
-  )
-}
+// {// project：取出数组成员的多个属性，组成一个新数组。
+//   var abby = { name: 'Abby', age: 7, hair: 'blond', grade: 2 };
+//   var fred = { name: 'Fred', age: 12, hair: 'brown', grade: 7 };
+//   var kids = [abby, fred];
+//   console.log(
+//     R.project(['name', 'grade'])(kids)// [{name: 'Abby', grade: 2}, {name: 'Fred', grade: 7}]
+//   )
+// }
 
-{// transpose：将每个成员相同位置的值，组成一个新数组。
-  console.log(
-    R.transpose([[1, 'a'], [2, 'b'], [3, 'c']]),// [[1, 2, 3], ['a', 'b', 'c']]
-    R.transpose([[1, 2, 3], ['a', 'b', 'c']]),// [[1, 'a'], [2, 'b'], [3, 'c']]
-    R.transpose([[10, 11], [20], [], [30, 31, 32]]),// [[10, 20, 30], [11, 31], [32]]
-  );
-}
+// {// transpose：将每个成员相同位置的值，组成一个新数组。
+//   console.log(
+//     R.transpose([[1, 'a'], [2, 'b'], [3, 'c']]),// [[1, 2, 3], ['a', 'b', 'c']]
+//     R.transpose([[1, 2, 3], ['a', 'b', 'c']]),// [[1, 'a'], [2, 'b'], [3, 'c']]
+//     R.transpose([[10, 11], [20], [], [30, 31, 32]]),// [[10, 20, 30], [11, 31], [32]]
+//   );
+// }
 
-{// mergeAll：将数组的成员合并成一个对象。
-  console.log(
-    R.mergeAll([{ foo: 1 }, { bar: 2 }, { baz: 3 }]),// {foo:1,bar:2,baz:3}
-    R.mergeAll([{ foo: 1 }, { foo: 2 }, { bar: 2 }]),// {foo:2, bar:2}
-  );
-}
+// {// mergeAll：将数组的成员合并成一个对象。
+//   console.log(
+//     R.mergeAll([{ foo: 1 }, { bar: 2 }, { baz: 3 }]),// {foo:1,bar:2,baz:3}
+//     R.mergeAll([{ foo: 1 }, { foo: 2 }, { bar: 2 }]),// {foo:2, bar:2}
+//   );
+// }
 
-{// fromPairs：将嵌套数组转为一个对象。
-  console.log(
-    R.fromPairs([['a', 1], ['b', 2], ['c', 3]])// {a: 1, b: 2, c: 3}
-  );
-}
+// {// fromPairs：将嵌套数组转为一个对象。
+//   console.log(
+//     R.fromPairs([['a', 1], ['b', 2], ['c', 3]])// {a: 1, b: 2, c: 3}
+//   );
+// }
 
-{// groupBy：将数组成员按照指定条件分组。
-  var byGrade = R.groupBy(function (student) {
-    var score = student.score;
-    return score < 65 ? 'F' :
-      score < 70 ? 'D' :
-        score < 80 ? 'C' :
-          score < 90 ? 'B' : 'A';
-  });
-  var students = [
-    { name: 'Abby', score: 84 },
-    { name: 'Eddy', score: 58 },
-    { name: 'Jack', score: 69 }
-  ];
-  console.log(
-    byGrade(students)
-  )
-  // {
-  //   'A': [{name: 'Dianne', score: 99}],
-  //   'B': [{name: 'Abby', score: 84}]
-  //   'F': [{name: 'Eddy', score: 58}]
-  // }
-}
+// {// groupBy：将数组成员按照指定条件分组。
+//   var byGrade = R.groupBy(function (student) {
+//     var score = student.score;
+//     return score < 65 ? 'F' :
+//       score < 70 ? 'D' :
+//         score < 80 ? 'C' :
+//           score < 90 ? 'B' : 'A';
+//   });
+//   var students = [
+//     { name: 'Abby', score: 84 },
+//     { name: 'Eddy', score: 58 },
+//     { name: 'Jack', score: 69 }
+//   ];
+//   console.log(
+//     byGrade(students)
+//   )
+//   // {
+//   //   'A': [{name: 'Dianne', score: 99}],
+//   //   'B': [{name: 'Abby', score: 84}]
+//   //   'F': [{name: 'Eddy', score: 58}]
+//   // }
+// }
 
-{// sortBy：根据成员的某个属性排序。
-  var sortByFirstItem = R.sortBy(R.prop(0));
-  console.log(
-    sortByFirstItem([[- 1, 1], [-2, 2], [-3, 3]])// [[-3, 3], [-2, 2], [-1, 1]]
-  );
-  var sortByNameCaseInsensitive = R.sortBy(
-    R.compose(R.toLower, R.prop('name'))
-  );
-  var alice = { name: 'ALICE', age: 101 };
-  var bob = { name: 'Bob', age: -10 };
-  var clara = { name: 'clara', age: 314.159 };
-  var people = [clara, bob, alice];
-  console.log(
-    sortByNameCaseInsensitive(people)
-  );// [alice, bob, clara]
-}
+// {// sortBy：根据成员的某个属性排序。
+//   var sortByFirstItem = R.sortBy(R.prop(0));
+//   console.log(
+//     sortByFirstItem([[- 1, 1], [-2, 2], [-3, 3]])// [[-3, 3], [-2, 2], [-1, 1]]
+//   );
+//   var sortByNameCaseInsensitive = R.sortBy(
+//     R.compose(R.toLower, R.prop('name'))
+//   );
+//   var alice = { name: 'ALICE', age: 101 };
+//   var bob = { name: 'Bob', age: -10 };
+//   var clara = { name: 'clara', age: 314.159 };
+//   var people = [clara, bob, alice];
+//   console.log(
+//     sortByNameCaseInsensitive(people)
+//   );// [alice, bob, clara]
+// }
